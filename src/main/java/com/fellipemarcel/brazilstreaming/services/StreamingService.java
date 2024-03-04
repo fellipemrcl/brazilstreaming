@@ -1,5 +1,6 @@
 package com.fellipemarcel.brazilstreaming.services;
 
+import com.fellipemarcel.brazilstreaming.exception.StreamingNotFoundException;
 import com.fellipemarcel.brazilstreaming.models.entities.Streaming;
 import com.fellipemarcel.brazilstreaming.models.repositories.StreamingRepository;
 import java.util.List;
@@ -25,7 +26,13 @@ public class StreamingService {
   }
 
   public Optional<Streaming> getStreamingById(Long id) {
-    return streamingRepository.findById(id);
+    Optional<Streaming> optionalStreaming = streamingRepository.findById(id);
+
+    if (optionalStreaming.isEmpty()) {
+      throw new StreamingNotFoundException();
+    }
+
+    return optionalStreaming;
   }
 
   public List<Streaming> getAllStreamings() {
@@ -42,20 +49,21 @@ public class StreamingService {
   public Optional<Streaming> updateStreaming(Long id, Streaming streaming) {
     Optional<Streaming> optionalStreaming = streamingRepository.findById(id);
 
-    if (optionalStreaming.isPresent()) {
-      Streaming streamingFromDb = optionalStreaming.get();
-      streamingFromDb.setName(streaming.getName());
-      streamingFromDb.setUrl(streaming.getUrl());
-      streamingFromDb.setPrice(streaming.getPrice());
-      streamingFromDb.setSimultaneousAccess(streaming.getSimultaneousAccess());
-      streamingFromDb.setCategory(streaming.getCategory());
-
-      Streaming updatedStreaming = streamingRepository.save(streamingFromDb);
-
-      return Optional.of(updatedStreaming);
+    if (optionalStreaming.isEmpty()) {
+      throw new StreamingNotFoundException();
     }
 
-    return optionalStreaming;
+    Streaming streamingFromDb = optionalStreaming.get();
+    streamingFromDb.setName(streaming.getName());
+    streamingFromDb.setUrl(streaming.getUrl());
+    streamingFromDb.setPrice(streaming.getPrice());
+    streamingFromDb.setSimultaneousAccess(streaming.getSimultaneousAccess());
+    streamingFromDb.setCategory(streaming.getCategory());
+
+    Streaming updatedStreaming = streamingRepository.save(streamingFromDb);
+
+    return Optional.of(updatedStreaming);
+
   }
 
   /**
@@ -67,9 +75,11 @@ public class StreamingService {
   public Optional<Streaming> removeStreamingById(Long id) {
     Optional<Streaming> optionalStreaming = streamingRepository.findById(id);
 
-    if (optionalStreaming.isPresent()) {
-      streamingRepository.deleteById(id);
+    if (optionalStreaming.isEmpty()) {
+      throw new StreamingNotFoundException();
     }
+
+    streamingRepository.deleteById(id);
 
     return optionalStreaming;
   }
