@@ -9,12 +9,14 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * The type Streaming.
  */
 @Entity
 @Table(name = "streamings")
+@Data
 public class Streaming {
 
   @Id
@@ -42,69 +44,16 @@ public class Streaming {
    * @param name               the name
    * @param url                the url
    * @param price              the price
-   * @param simultaneousAccess the simultaneous access count
+   * @param simultaneousAccess the simultaneous access
    * @param category           the category
    */
-  public Streaming(
-      Long id,
-      String name,
-      String url,
-      Double price,
-      Integer simultaneousAccess,
+  public Streaming(Long id, String name, String url, Double price, Integer simultaneousAccess,
       String category) {
     this.id = id;
     this.name = name;
     this.url = url;
     this.price = price;
     this.simultaneousAccess = simultaneousAccess;
-    this.category = category;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  public Double getPrice() {
-    return price;
-  }
-
-  public void setPrice(Double price) {
-    this.price = price;
-  }
-
-  public Integer getSimultaneousAccess() {
-    return simultaneousAccess;
-  }
-
-  public void setSimultaneousAccess(Integer simultaneousAccess) {
-    this.simultaneousAccess = simultaneousAccess;
-  }
-
-  public String getCategory() {
-    return category;
-  }
-
-  public void setCategory(String category) {
     this.category = category;
   }
 }
