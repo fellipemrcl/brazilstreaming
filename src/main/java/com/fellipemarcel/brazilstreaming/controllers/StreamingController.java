@@ -4,6 +4,7 @@ import com.fellipemarcel.brazilstreaming.controllers.dto.ResponseDto;
 import com.fellipemarcel.brazilstreaming.controllers.dto.StreamingDto;
 import com.fellipemarcel.brazilstreaming.models.entities.Streaming;
 import com.fellipemarcel.brazilstreaming.services.StreamingService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ public class StreamingController {
    */
   @PostMapping
   public ResponseEntity<ResponseDto<Streaming>> createStreaming(
-      @RequestBody StreamingDto streamingDto
+      @RequestBody @Valid StreamingDto streamingDto
   ) {
     Streaming newStreaming = streamingService.insertStreaming(streamingDto.toEntity());
     ResponseDto<Streaming> response = new ResponseDto<>("Streaming created", newStreaming);
@@ -59,7 +60,7 @@ public class StreamingController {
   @PutMapping("/{id}")
   public ResponseEntity<ResponseDto<Streaming>> updateStreaming(
       @PathVariable Long id,
-      @RequestBody StreamingDto streamingDto
+      @RequestBody @Valid StreamingDto streamingDto
   ) {
     Optional<Streaming> optionalStreaming =
         streamingService.updateStreaming(id, streamingDto.toEntity());

@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NegativeOrZero;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * The type Streaming.
@@ -16,10 +18,15 @@ public class Streaming {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  @NotBlank(message = "Name is mandatory")
   private String name;
+  @NotBlank(message = "URL is mandatory")
   private String url;
+  @NegativeOrZero(message = "Price must be greater than zero")
   private Double price;
+  @NegativeOrZero(message = "Simultaneous access must be greater than zero")
   private Integer simultaneousAccess;
+  @NotBlank(message = "Category is mandatory")
   private String category;
 
   public Streaming() {
