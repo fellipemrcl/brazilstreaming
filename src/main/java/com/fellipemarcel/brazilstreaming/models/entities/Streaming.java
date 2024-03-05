@@ -5,8 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NegativeOrZero;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * The type Streaming.
@@ -22,9 +24,10 @@ public class Streaming {
   private String name;
   @NotBlank(message = "URL is mandatory")
   private String url;
-  @NegativeOrZero(message = "Price must be greater than zero")
+  @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
   private Double price;
-  @NegativeOrZero(message = "Simultaneous access must be greater than zero")
+  @NotNull(message = "Simultaneous access is mandatory")
+  @Min(value = 1, message = "Simultaneous access must be greater than 0")
   private Integer simultaneousAccess;
   @NotBlank(message = "Category is mandatory")
   private String category;
