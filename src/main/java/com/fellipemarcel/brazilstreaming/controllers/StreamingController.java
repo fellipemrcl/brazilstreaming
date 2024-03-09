@@ -44,7 +44,15 @@ public class StreamingController {
   public ResponseEntity<ResponseDto<Streaming>> createStreaming(
       @RequestBody @Valid StreamingDto streamingDto
   ) {
+    String name = streamingDto.name();
+
+    if (streamingService.getStreamingByName(name).isPresent()) {
+      ResponseDto<Streaming> response = new ResponseDto<>("Streaming already exists", null);
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
     Streaming newStreaming = streamingService.insertStreaming(streamingDto.toEntity());
+
     ResponseDto<Streaming> response = new ResponseDto<>("Streaming created", newStreaming);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
