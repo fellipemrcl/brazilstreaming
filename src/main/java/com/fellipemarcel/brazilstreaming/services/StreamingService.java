@@ -25,6 +25,12 @@ public class StreamingService {
     return streamingRepository.save(streaming);
   }
 
+  /**
+   * Gets streaming by id.
+   *
+   * @param id the id
+   * @return the streaming by id
+   */
   public Optional<Streaming> getStreamingById(Long id) {
     Optional<Streaming> optionalStreaming = streamingRepository.findById(id);
 
@@ -82,5 +88,9 @@ public class StreamingService {
     streamingRepository.deleteById(id);
 
     return optionalStreaming;
+  }
+
+  public Optional<Streaming> getStreamingByName(String name) {
+    return streamingRepository.getStreamingByName(name);
   }
 }
